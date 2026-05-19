@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>灵犀文案 - AI智能生成小红书爆款文案</title>
+  <style>
+    /* ===== 基础样式 ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #333;
+      background: #f5f5f5;
+    }
+
+    /* ===== 顶部导航 ===== */
+    .nav {
+      background: white;
+      border-bottom: 1px solid #eee;
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: #666;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #f5576c; }
+    .nav-btn {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .nav-btn:hover { opacity: 0.9; }
+
+    /* ===== 主内容区 ===== */
+    .hero {
+      text-align: center;
+      padding: 80px 24px 60px;
+    }
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero .desc {
+      font-size: 18px;
+      color: #999;
+      margin-bottom: 48px;
+    }
+
+    /* ===== 生成器卡片 ===== */
+    .generator {
+      max-width: 640px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      text-align: left;
+    }
+    .generator h3 {
+      font-size: 18px;
+      margin-bottom: 24px;
+      color: #333;
+    }
+    .form-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .form-group { flex: 1; display: flex; flex-direction: column; }
+    .form-group label {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .form-group input,
+    .form-group select {
+      padding: 12px 14px;
+      border: 2px solid #eee;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s;
+      font-family: inherit;
+    }
+    .form-group input:focus,
+    .form-group select:focus { border-color: #f5576c; }
+
+    .gen-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .gen-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(245,87,108,0.4); }
+    .gen-btn:active { transform: scale(0.98); }
+
+    .result {
+      margin-top: 24px;
+      padding: 20px;
+      background: #fdf2f4;
+      border-radius: 12px;
+      border: 1px solid #fce4e8;
+      font-size: 14px;
+      line-height: 2;
+      color: #555;
+      white-space: pre-wrap;
+      display: none;
+    }
+    .result.show { display: block; }
+    .result .copy-btn {
+      margin-top: 12px;
+      padding: 8px 20px;
+      background: white;
+      border: 1px solid #f5576c;
+      color: #f5576c;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .result .copy-btn:hover { background: #f5576c; color: white; }
+
+    /* ===== 特性区 ===== */
+    .features {
+      max-width: 960px;
+      margin: 60px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature {
+      text-align: center;
+      padding: 40px 24px;
+      background: white;
+      border-radius: 16px;
+      transition: transform 0.2s;
+    }
+    .feature:hover { transform: translateY(-4px); }
+    .feature .icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+    .feature h4 { font-size: 16px; margin-bottom: 8px; color: #333; }
+    .feature p { font-size: 13px; color: #999; line-height: 1.7; }
+
+    /* ===== 价格区 ===== */
+    .pricing {
+      max-width: 960px;
+      margin: 60px auto;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .pricing h2 { font-size: 28px; margin-bottom: 40px; }
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .plan {
+      background: white;
+      border-radius: 16px;
+      padding: 36px 24px;
+      border: 2px solid #eee;
+      transition: border 0.2s;
+      position: relative;
+    }
+    .plan:hover { border-color: #f5576c; }
+    .plan.recommend {
+      border-color: #f5576c;
+      box-shadow: 0 10px 30px rgba(245,87,108,0.15);
+    }
+    .plan .badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f5576c;
+      color: white;
+      padding: 4px 16px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .plan h4 { font-size: 18px; margin-bottom: 8px; }
+    .plan .price { font-size: 36px; font-weight: 800; margin: 16px 0; }
+    .plan .price small { font-size: 14px; color: #999; font-weight: 400; }
+    .plan ul { list-style: none; text-align: left; margin: 24px 0; }
+    .plan ul li {
+      padding: 6px 0;
+      font-size: 14px;
+      color: #666;
+    }
+    .plan ul li::before { content: "✓ "; color: #f5576c; font-weight: bold; }
+    .plan button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      background: white;
+      border: 2px solid #f5576c;
+      color: #f5576c;
+      transition: all 0.2s;
+    }
+    .plan button:hover {
+      background: #f5576c;
+      color: white;
+    }
+    .plan.recommend button {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      border: none;
+    }
+
+    /* ===== 案例展示（轮播图） ===== */
+    .cases {
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 0 24px;
+    }
+    .cases h2 { text-align: center; font-size: 28px; margin-bottom: 8px; }
+    .cases .cases-sub { text-align: center; color: #999; font-size: 14px; margin-bottom: 36px; }
+
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .carousel-slide {
+      min-width: 100%;
+      padding: 48px 60px 40px;
+    }
+    .carousel-slide .case-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .case-badge.caozhong { background: #fff0f3; color: #f5576c; }
+    .case-badge.ceping { background: #eef4ff; color: #4a7cf7; }
+    .case-badge.duibi { background: #f0faf0; color: #3cb371; }
+    .case-badge.jiaocheng { background: #fff7e6; color: #f0a040; }
+
+    .carousel-slide .case-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    .carousel-slide .case-meta {
+      font-size: 13px;
+      color: #bbb;
+      margin-bottom: 20px;
+    }
+    .carousel-slide .case-content {
+      font-size: 15px;
+      color: #555;
+      line-height: 2;
+      white-space: pre-wrap;
+      background: #fafafa;
+      border-radius: 12px;
+      padding: 24px;
+      border-left: 3px solid #f5576c;
+    }
+
+    /* 轮播按钮 */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      cursor: pointer;
+      font-size: 20px;
+      color: #666;
+      z-index: 2;
+      transition: all 0.2s;
+    }
+    .carousel-btn:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.18); color: #f5576c; }
+    .carousel-btn.prev { left: 16px; }
+    .carousel-btn.next { right: 16px; }
+
+    /* 指示器 */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px 0 28px;
+    }
+    .carousel-dots .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ddd;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      padding: 0;
+    }
+    .carousel-dots .dot.active {
+      background: #f5576c;
+      width: 28px;
+      border-radius: 10px;
+    }
+
+    /* ===== 底部 ===== */
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+      color: #bbb;
+      font-size: 13px;
+      border-top: 1px solid #eee;
+      margin-top: 60px;
+    }
+
+    /* ===== 手机适配 ===== */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 28px; }
+      .form-row { flex-direction: column; }
+      .features { grid-template-columns: 1fr; }
+      .carousel-slide { padding: 32px 40px 28px; }
+      .carousel-slide .case-content { font-size: 14px; padding: 16px; }
+      .plans { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 480px) {
+      .plans { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 导航 -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="logo">灵犀文案</div>
+      <ul class="nav-links">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">功能介绍</a></li>
+        <li><a href="#">价格方案</a></li>
+        <li><a href="#">关于我们</a></li>
+      </ul>
+      <button class="nav-btn">免费试用</button>
+    </div>
+  </nav>
+
+  <!-- 主区域 -->
+  <section class="hero">
+    <h1>用 <span>AI</span> 写出小红书爆款文案</h1>
+    <p class="desc">输入你的产品，30秒生成3条小红书风格文案，帮你省下每一分钟</p>
+
+    <!-- 生成器 -->
+    <div class="generator">
+      <h3>📝 立即生成你的文案</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>产品名称</label>
+          <input type="text" id="product" placeholder="如：氨基酸洗面奶">
+        </div>
+        <div class="form-group">
+          <label>文案风格</label>
+          <select id="style">
+            <option value="种草">种草推荐</option>
+            <option value="测评">真实测评</option>
+            <option value="教程">使用教程</option>
+            <option value="对比">对比盘点</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>关键词（可选）</label>
+          <input type="text" id="keyword" placeholder="如：油皮、平价、学生党">
+        </div>
+        <div class="form-group">
+          <label>目标人群（可选）</label>
+          <select id="audience">
+            <option value="">不限</option>
+            <option value="学生党">学生党</option>
+            <option value="上班族">上班族</option>
+            <option value="宝妈">宝妈</option>
+            <option value="男生">男生</option>
+          </select>
+        </div>
+      </div>
+      <button class="gen-btn" onclick="generate()">✨ 生成文案</button>
+
+      <div class="result" id="result">
+        <div id="resultText"></div>
+        <button class="copy-btn" onclick="copyResult()">📋 一键复制</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 特性 -->
+  <section class="features">
+    <div class="feature">
+      <div class="icon">⚡</div>
+      <h4>秒级生成</h4>
+      <p>输入产品信息，30秒内生成多条文案，告别写作焦虑</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🎯</div>
+      <h4>多风格可选</h4>
+      <p>种草、测评、教程、对比，覆盖小红书所有热门文案类型</p>
+    </div>
+    <div class="feature">
+      <div class="icon">🔋</div>
+      <h4>无限使用</h4>
+      <p>付费会员不限次数生成，每天产出 100+ 条优质文案</p>
+    </div>
+  </section>
+
+  <!-- 案例（轮播图） -->
+  <section class="cases">
+    <h2>📌 真实案例参考</h2>
+    <p class="cases-sub">以下是用户使用灵犀文案生成的实际内容，已获授权展示</p>
+    <div class="carousel" id="carousel">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide">
+          <span class="case-badge caozhong">种草推荐</span>
+          <div class="case-title">防晒霜</div>
+          <div class="case-meta">目标人群：学生党 &nbsp;|&nbsp; 关键词：油皮、平价</div>
+          <div class="case-content">✨ 姐妹们！这款防晒霜真的绝了！
+
+💕 用了一周的感受：
+① 油皮涂了完全不闷！清爽到像没涂一样
+② 才几十块钱，性价比真的爆表
+③ 防晒指数SPF50+，夏天完全够用
+
+真的不是广，纯自用分享～
+已经安利给身边所有的学生党了！
+
+#好物分享 #防晒霜 #油皮救星</div>
+        </div>
+        <div class="carousel-slide">
+          <span class="case-badge ceping">真实测评</span>
+          <div class="case-title">蓝牙耳机</div>
+          <div class="case-meta">目标人群：上班族 &nbsp;|&nbsp; 关键词：降噪、续航</div>
+          <div class="case-content">📊 这款蓝牙耳机30天真实测评来了！
+
+先说一下我的情况：上班族，每天通勤2小时
+
+🗓 第1周：降噪效果惊艳，地铁上几乎听不到噪音
+🗓 第2周：续航太顶了，一周充一次
+🗓 第3周：戴着跑步也不掉，很稳
+🗓 第4周：完全没有坏，做工真的良心
+
+⚠️ 总结：200块以内最能打的耳机，没有之一
+
+#真实测评 #蓝牙耳机推荐</div>
+        </div>
+        <div class="carousel-slide">
+          <span class="case-badge duibi">对比盘点</span>
+          <div class="case-title">家用咖啡机</div>
+          <div class="case-meta">目标人群：上班族 &nbsp;|&nbsp; 关键词：家用、性价比</div>
+          <div class="case-content">⚖️ 热门家用咖啡机大对比！帮你避雷
+
+选了市面上最火的3款对比：
+
+🏆 A牌 vs B牌 vs C牌
+
+💸 价格上这台最亲民，学生党也买得起
+☕ 萃取效果不输星巴克门店水平
+🎀 颜值在线，放厨房直接提升格调
+
+用了半年了，每天早上3分钟一杯，省了多少咖啡钱！
+
+#家用咖啡机 #咖啡机推荐</div>
+        </div>
+        <div class="carousel-slide">
+          <span class="case-badge jiaocheng">使用教程</span>
+          <div class="case-title">瑜伽垫</div>
+          <div class="case-meta">目标人群：宝妈 &nbsp;|&nbsp; 关键词：防滑、加厚</div>
+          <div class="case-content">📖 瑜伽垫的正确选购&使用教程来啦！
+
+很多宝子买了瑜伽垫不知道怎么选，今天手把手教你！
+
+📝 Step 1：厚度怎么选？初学者选6mm最合适
+📝 Step 2：材质怎么挑？TPE环保材质无异味
+📝 Step 3：防滑测试——湿手按压不滑动才合格
+
+⚠️ 常见误区：不是越厚越好！太厚反而站不稳
+
+学会的记得点赞收藏🌟
+
+#瑜伽垫选购 #健身教程</div>
+        </div>
+      </div>
+      <!-- 左右箭头 -->
+      <button class="carousel-btn prev" onclick="prevSlide()">&#10094;</button>
+      <button class="carousel-btn next" onclick="nextSlide()">&#10095;</button>
+      <!-- 指示器圆点 -->
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </section>
+
+  <!-- 价格 -->
+  <section class="pricing">
+    <h2>选择你的方案</h2>
+    <div class="plans">
+      <div class="plan">
+        <h4>免费版</h4>
+        <div class="price">0<small> 元</small></div>
+        <ul>
+          <li>每天生成 3 次</li>
+          <li>2 种文案风格</li>
+          <li>基础文案质量</li>
+          <li>网页版使用</li>
+        </ul>
+        <button>开始使用</button>
+      </div>
+      <div class="plan recommend">
+        <div class="badge">🔥 最受欢迎</div>
+        <h4>年度会员</h4>
+        <div class="price">99<small> 元/年</small></div>
+        <ul>
+          <li>无限次数生成</li>
+          <li>全部文案风格</li>
+          <li>AI 高级模型生成</li>
+          <li>优先客服支持</li>
+          <li>每月额度 5000 条</li>
+        </ul>
+        <button>立即订阅</button>
+      </div>
+      <div class="plan">
+        <h4>单次使用</h4>
+        <div class="price">1.99<small> 元/次</small></div>
+        <ul>
+          <li>单次生成 1 条文案</li>
+          <li>全部文案风格</li>
+          <li>AI 高级模型生成</li>
+          <li>按需使用，无负担</li>
+        </ul>
+        <button>立即购买</button>
+      </div>
+      <div class="plan">
+        <h4>月度会员</h4>
+        <div class="price">19.9<small> 元/月</small></div>
+        <ul>
+          <li>无限次数生成</li>
+          <li>全部文案风格</li>
+          <li>AI 高级模型生成</li>
+          <li>每月额度 500 条</li>
+        </ul>
+        <button>立即订阅</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 底部 -->
+  <footer class="footer">
+    © 2025 灵犀文案 · 用 AI 让每个人都能写出好文案
+  </footer>
+
+  <script>
+    /* ===== 轮播图逻辑 ===== */
+    let currentSlide = 0;
+    const slideCount = 4;
+
+    function initCarousel() {
+      const dotsContainer = document.getElementById('carouselDots');
+      for (let i = 0; i < slideCount; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function updateCarousel() {
+      const track = document.getElementById('carouselTrack');
+      track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+      const dots = document.querySelectorAll('.carousel-dots .dot');
+      dots.forEach((dot, i) => {
+        dot.className = 'dot' + (i === currentSlide ? ' active' : '');
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slideCount;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+      updateCarousel();
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateCarousel();
+    }
+
+    // 自动轮播
+    let autoPlay = setInterval(nextSlide, 4000);
+
+    // 鼠标悬停时暂停自动轮播
+    document.addEventListener('DOMContentLoaded', () => {
+      initCarousel();
+      const carousel = document.getElementById('carousel');
+      carousel.addEventListener('mouseenter', () => clearInterval(autoPlay));
+      carousel.addEventListener('mouseleave', () => {
+        autoPlay = setInterval(nextSlide, 4000);
+      });
+    });
+
+    /* ===== AI 文案生成 ===== */
+    async function generate() {
+      const product = document.getElementById('product').value.trim();
+      const style = document.getElementById('style').value;
+      const keyword = document.getElementById('keyword').value.trim();
+      const audience = document.getElementById('audience').value;
+      const resultBox = document.getElementById('result');
+      const resultText = document.getElementById('resultText');
+
+      if (!product) {
+        resultText.textContent = '⚠️ 请先输入产品名称再生成哦～';
+        resultBox.classList.add('show');
+        return;
+      }
+
+      // 显示加载状态
+      resultText.textContent = '⏳ AI 正在为你生成文案...';
+      resultBox.classList.add('show');
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      try {
+        const response = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ product, style, keyword, audience }),
+        });
+
+        const data = await response.json();
+        resultText.textContent = data.content;
+      } catch (err) {
+        resultText.textContent = '⚠️ 网络出错了，请检查服务器是否启动后再试';
+      }
+    }
+
+    function copyResult() {
+      const text = document.getElementById('resultText').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = '✅ 已复制！';
+        setTimeout(() => { btn.textContent = '📋 一键复制'; }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
